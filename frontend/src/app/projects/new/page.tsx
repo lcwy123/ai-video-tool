@@ -2,12 +2,13 @@
 
 import { useRouter } from 'next/navigation';
 import ProjectForm from '@/components/projects/ProjectForm';
+import { api } from '@/lib/api';
 
 export default function NewProjectPage() {
   const router = useRouter();
 
   const handleCreate = async (title: string) => {
-    console.log('创建项目:', title);
+    await api.createProject(title);
     router.push('/projects');
   };
 
