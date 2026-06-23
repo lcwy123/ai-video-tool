@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
@@ -18,13 +18,7 @@ class ProjectService:
         return self.db.query(Project).filter(Project.id == project_id).first()
 
     def create_project(self, data: ProjectCreate) -> Project:
-        project = Project(
-            id=uuid.uuid4(),
-            title=data.title,
-            scene_count=0,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
-        )
+        project = Project(title=data.title)
         self.db.add(project)
         self.db.commit()
         self.db.refresh(project)
@@ -36,7 +30,6 @@ class ProjectService:
             return None
         if data.title is not None:
             project.title = data.title
-        project.updated_at = datetime.utcnow()
         self.db.commit()
         self.db.refresh(project)
         return project
