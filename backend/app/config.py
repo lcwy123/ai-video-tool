@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     upload_dir: str = "./uploads"
     max_upload_size_mb: int = 100
     tts_provider: str = "edge_tts"
+    openai_api_key: str = ""
 
     class Config:
         env_file = ".env"
