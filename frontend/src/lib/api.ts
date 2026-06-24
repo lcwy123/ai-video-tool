@@ -1,4 +1,4 @@
-import type { Asset, AssetListResponse, Project, ProjectListResponse, Scene } from './types';
+import type { Asset, AssetListResponse, Avatar, Project, ProjectListResponse, Scene } from './types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -75,4 +75,25 @@ export const api = {
 
   deleteAsset: (id: string) =>
     request<void>(`/api/assets/${id}`, { method: 'DELETE' }),
+
+  listAvatars: () =>
+    request<Avatar[]>('/api/avatars'),
+
+  getAvatar: (id: string) =>
+    request<Avatar>(`/api/avatars/${id}`),
+
+  createAvatar: (data: Record<string, unknown>) =>
+    request<Avatar>('/api/avatars', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updateAvatar: (id: string, data: Record<string, unknown>) =>
+    request<Avatar>(`/api/avatars/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  deleteAvatar: (id: string) =>
+    request<void>(`/api/avatars/${id}`, { method: 'DELETE' }),
 };

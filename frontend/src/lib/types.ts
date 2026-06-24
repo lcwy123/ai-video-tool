@@ -36,6 +36,25 @@ export interface AssetListResponse {
   total: number;
 }
 
+export interface VoicePreset {
+  provider: string;
+  voice_id: string;
+  speed: number;
+  pitch: number;
+}
+
+export interface Avatar {
+  id: string;
+  name: string;
+  portrait: string | null;
+  model_3d_url: string | null;
+  voice_preset: VoicePreset | null;
+  personality: string;
+  avatar_style: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ProjectListResponse {
   projects: Project[];
   total: number;
