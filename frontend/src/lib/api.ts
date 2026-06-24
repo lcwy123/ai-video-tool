@@ -1,4 +1,4 @@
-import type { Project, ProjectListResponse } from './types';
+import type { Project, ProjectListResponse, Scene } from './types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -36,4 +36,28 @@ export const api = {
 
   deleteProject: (id: string) =>
     request<void>(`/api/projects/${id}`, { method: 'DELETE' }),
+
+  listScenes: (projectId: string) =>
+    request<Scene[]>(`/api/scenes/project/${projectId}`),
+
+  createScene: (projectId: string, script?: string) =>
+    request<Scene>('/api/scenes', {
+      method: 'POST',
+      body: JSON.stringify({ project_id: projectId, script: script || '' }),
+    }),
+
+  updateScene: (id: string, data: Record<string, unknown>) =>
+    request<Scene>(`/api/scenes/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  reorderScenes: (sceneIds: string[]) =>
+    request<Scene[]>('/api/scenes/reorder', {
+      method: 'PUT',
+      body: JSON.stringify({ scene_ids: sceneIds }),
+    }),
+
+  deleteScene: (id: string) =>
+    request<void>(`/api/scenes/${id}`, { method: 'DELETE' }),
 };
