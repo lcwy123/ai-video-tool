@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { Scene } from '@/lib/types';
+import ModelOverride from './ModelOverride';
 
 interface SceneEditorProps {
   scene: Scene | null;
@@ -78,6 +79,7 @@ export default function SceneEditorPanel({ scene, onUpdate }: SceneEditorProps) 
       <div className="text-xs text-gray-400">
         配音和背景素材将在后续面板中配置
       </div>
+      <ModelOverride sceneId={scene.id} onSave={onUpdate} />
     </div>
   );
 }
