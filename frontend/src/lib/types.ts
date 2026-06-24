@@ -19,6 +19,23 @@ export interface Scene {
   updated_at: string;
 }
 
+export interface Asset {
+  id: string;
+  project_id: string;
+  asset_type: string;
+  url: string;
+  thumbnail: string | null;
+  file_size: number | null;
+  source: string;
+  file_name: string | null;
+  created_at: string;
+}
+
+export interface AssetListResponse {
+  assets: Asset[];
+  total: number;
+}
+
 export interface ProjectListResponse {
   projects: Project[];
   total: number;

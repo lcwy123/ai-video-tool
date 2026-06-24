@@ -1,4 +1,4 @@
-import type { Project, ProjectListResponse, Scene } from './types';
+import type { Asset, AssetListResponse, Project, ProjectListResponse, Scene } from './types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -60,4 +60,19 @@ export const api = {
 
   deleteScene: (id: string) =>
     request<void>(`/api/scenes/${id}`, { method: 'DELETE' }),
+
+  listAssets: (projectId: string) =>
+    request<AssetListResponse>(`/api/assets/project/${projectId}`),
+
+  uploadAsset: (projectId: string, file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return fetch(`${API_BASE}/api/assets/upload/${projectId}`, {
+      method: 'POST',
+      body: formData,
+    }).then((r) => r.json()) as Promise<Asset>;
+  },
+
+  deleteAsset: (id: string) =>
+    request<void>(`/api/assets/${id}`, { method: 'DELETE' }),
 };
