@@ -16,6 +16,14 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  startRender: (projectId: string) =>
+    request<{ task_id: string; status: string }>(`/api/render/project/${projectId}`, { method: 'POST' }),
+
+  getRenderStatus: (taskId: string) =>
+    request<{ status: string; progress: number; message: string; output_url?: string }>(
+      `/api/render/status/${taskId}`
+    ),
+
   listProjects: () =>
     request<ProjectListResponse>('/api/projects'),
 

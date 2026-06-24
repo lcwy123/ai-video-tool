@@ -8,6 +8,8 @@ import Timeline from './Timeline';
 import SceneEditorPanel from './SceneEditor';
 import AssetPanel from './AssetPanel';
 import AvatarSelector from './AvatarSelector';
+import ExportButton from './ExportButton';
+import VideoPlayer from './VideoPlayer';
 
 interface EditorLayoutProps {
   projectId: string;
@@ -18,6 +20,7 @@ export default function EditorLayout({ projectId }: EditorLayoutProps) {
   const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
   const activeScene = scenes.find((s) => s.id === activeSceneId) || null;
   const [selectedAvatar, setSelectedAvatar] = useState<Avatar | null>(null);
+  const [renderedVideoUrl, setRenderedVideoUrl] = useState<string | null>(null);
 
   const loadScenes = useCallback(async () => {
     const data = await api.listScenes(projectId);
@@ -65,19 +68,14 @@ export default function EditorLayout({ projectId }: EditorLayoutProps) {
 
       {/* Center: Preview + Timeline */}
       <div className="flex-1 flex flex-col">
-        <div className="flex-1 bg-gray-900 flex items-center justify-center text-gray-500">
-          <div className="text-center">
-            <p className="text-lg">3D 预览区域</p>
-            {selectedAvatar && (
-              <p className="text-sm mt-2 text-blue-400">
-                角色: {selectedAvatar.name}
-              </p>
-            )}
-            {!selectedAvatar && (
-              <p className="text-sm mt-2">将在 Phase 3 中实现</p>
-            )}
+        {/* Toolbar */}
+        <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 bg-white">
+          <div className="text-sm text-gray-600">
+            {selectedAvatar && <span>角色: {selectedAvatar.name}</span>}
           </div>
+          <ExportButton projectId={projectId} onRenderComplete={setRenderedVideoUrl} />
         </div>
+        <VideoPlayer src={renderedVideoUrl ? `http://localhost:8000${renderedVideoUrl}` : null} />
         <Timeline
           scenes={scenes}
           activeId={activeSceneId}
