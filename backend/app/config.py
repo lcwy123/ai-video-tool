@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:3000"]
     upload_dir: str = "./uploads"
     max_upload_size_mb: int = 100
+    tts_provider: str = "edge_tts"
 
     class Config:
         env_file = ".env"
