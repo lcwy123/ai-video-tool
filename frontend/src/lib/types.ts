@@ -59,3 +59,10 @@ export interface ProjectListResponse {
   projects: Project[];
   total: number;
 }
+
+export interface LLMConfig { provider: string; model: string; temperature: number; max_tokens: number; }
+export interface TTSConfig { provider: string; voice_id: string; speed: number; }
+export interface ImageGenConfig { provider: string; model: string; size: string; }
+export interface VideoGenConfig { provider: string; model: string; }
+export interface ModelConfig { llm: LLMConfig; tts: TTSConfig; image_gen: ImageGenConfig; video_gen: VideoGenConfig; }
+export interface DefaultModelConfig { llm_providers: string[]; tts_providers: string[]; image_providers: string[]; video_providers: string[]; }

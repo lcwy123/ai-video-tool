@@ -1,4 +1,4 @@
-import type { Asset, AssetListResponse, Avatar, Project, ProjectListResponse, Scene } from './types';
+import type { Asset, AssetListResponse, Avatar, DefaultModelConfig, ModelConfig, Project, ProjectListResponse, Scene } from './types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -96,4 +96,13 @@ export const api = {
 
   deleteAvatar: (id: string) =>
     request<void>(`/api/avatars/${id}`, { method: 'DELETE' }),
+
+  getDefaultModelConfig: () =>
+    request<DefaultModelConfig>('/api/model-config/default'),
+
+  updateProjectModelConfig: (projectId: string, config: ModelConfig) =>
+    request<void>(`/api/model-config/project/${projectId}`, {
+      method: 'PUT',
+      body: JSON.stringify(config),
+    }),
 };
