@@ -17,7 +17,7 @@ def upgrade():
     op.create_table(
         "scenes",
         sa.Column("id", sa.Uuid(), primary_key=True),
-        sa.Column("project_id", sa.Uuid(), sa.ForeignKey("projects.id"), nullable=False),
+        sa.Column("project_id", sa.Uuid(), sa.ForeignKey("projects.id", ondelete="CASCADE"), nullable=False),
         sa.Column("order", sa.Integer(), nullable=False, server_default="0"),
         sa.Column("duration", sa.Integer(), nullable=False, server_default="10"),
         sa.Column("script", sa.Text(), nullable=False, server_default=""),

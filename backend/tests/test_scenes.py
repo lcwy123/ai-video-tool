@@ -47,3 +47,36 @@ def test_delete_scene(client: TestClient):
     resp = client.delete(f"/api/scenes/{scene['id']}")
     assert resp.status_code == 204
     assert client.get(f"/api/scenes/{scene['id']}").status_code == 404
+
+
+def test_get_scene_not_found(client: TestClient):
+    resp = client.get("/api/scenes/00000000-0000-0000-0000-000000000000")
+    assert resp.status_code == 404
+
+
+def test_update_scene_not_found(client: TestClient):
+    resp = client.patch(
+        "/api/scenes/00000000-0000-0000-0000-000000000000",
+        json={"script": "Nope"},
+    )
+    assert resp.status_code == 404
+
+
+def test_delete_scene_not_found(client: TestClient):
+    resp = client.delete("/api/scenes/00000000-0000-0000-0000-000000000000")
+    assert resp.status_code == 404
+
+
+def test_reorder_invalid_id(client: TestClient):
+    resp = client.put(
+        "/api/scenes/reorder",
+        json={"scene_ids": ["00000000-0000-0000-0000-000000000000"]},
+    )
+    assert resp.status_code == 400
+
+
+def test_list_scenes_empty_project(client: TestClient):
+    proj = client.post("/api/projects", json={"title": "Empty"}).json()
+    resp = client.get(f"/api/scenes/project/{proj['id']}")
+    assert resp.status_code == 200
+    assert resp.json() == []

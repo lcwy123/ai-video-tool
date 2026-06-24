@@ -15,7 +15,7 @@ class Scene(Base):
     __tablename__ = "scenes"
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
-    project_id: Mapped[uuid.UUID] = mapped_column(Uuid, ForeignKey("projects.id"), nullable=False)
+    project_id: Mapped[uuid.UUID] = mapped_column(Uuid, ForeignKey("projects.id", ondelete="CASCADE"), nullable=False)
     order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     duration: Mapped[int] = mapped_column(Integer, nullable=False, default=10)
     script: Mapped[str] = mapped_column(Text, nullable=False, default="")

@@ -44,7 +44,10 @@ def update_scene(
 
 @router.put("/reorder", response_model=list[SceneResponse])
 def reorder_scenes(data: SceneReorder, service: SceneService = Depends(get_service)):
-    return service.reorder(data.scene_ids)
+    scenes = service.reorder(data.scene_ids)
+    if len(scenes) != len(data.scene_ids):
+        raise HTTPException(400, detail="Some scene IDs not found")
+    return scenes
 
 
 @router.delete("/{scene_id}", status_code=204)
