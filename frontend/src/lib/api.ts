@@ -113,4 +113,16 @@ export const api = {
       method: 'PUT',
       body: JSON.stringify(config),
     }),
+
+  generateImage: (projectId: string, prompt: string) =>
+    request<Asset>('/api/generate/image', {
+      method: 'POST',
+      body: JSON.stringify({ project_id: projectId, prompt }),
+    }),
+
+  generateVideo: (projectId: string, prompt: string, duration?: number) =>
+    request<Asset>('/api/generate/video', {
+      method: 'POST',
+      body: JSON.stringify({ project_id: projectId, prompt, duration: duration || 5 }),
+    }),
 };

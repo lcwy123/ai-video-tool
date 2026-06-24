@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import type { Scene } from '@/lib/types';
 import ModelOverride from './ModelOverride';
+import AIGenerator from './AIGenerator';
 
 interface SceneEditorProps {
   scene: Scene | null;
@@ -80,6 +81,8 @@ export default function SceneEditorPanel({ scene, onUpdate }: SceneEditorProps) 
         配音和背景素材将在后续面板中配置
       </div>
       <ModelOverride sceneId={scene.id} onSave={onUpdate} />
+      <AIGenerator projectId={scene.project_id} type="image" onGenerated={() => {}} />
+      <AIGenerator projectId={scene.project_id} type="video" onGenerated={() => {}} />
     </div>
   );
 }
