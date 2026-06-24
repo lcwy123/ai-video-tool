@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, Integer, String, Uuid
+from sqlalchemy import DateTime, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database import Base
@@ -15,7 +15,9 @@ class Asset(Base):
     __tablename__ = "assets"
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
-    project_id: Mapped[uuid.UUID] = mapped_column(Uuid, nullable=False)
+    project_id: Mapped[uuid.UUID] = mapped_column(
+        Uuid, ForeignKey("projects.id", ondelete="CASCADE"), nullable=False
+    )
     asset_type: Mapped[str] = mapped_column(String(20), nullable=False)
     url: Mapped[str] = mapped_column(String(500), nullable=False)
     thumbnail: Mapped[str | None] = mapped_column(String(500), nullable=True)

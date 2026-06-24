@@ -1,12 +1,13 @@
 import uuid
 from pathlib import Path
 
-from fastapi import UploadFile
+from fastapi import HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from app.config import settings
 from app.models.asset import Asset
 
+CHUNK_SIZE = 64 * 1024  # 64 KB
 
 ALLOWED_TYPES = {
     "audio": [".mp3", ".wav", ".ogg", ".aac"],
@@ -21,7 +22,7 @@ def _detect_asset_type(filename: str) -> str:
     for atype, exts in ALLOWED_TYPES.items():
         if ext in exts:
             return atype
-    return "image"
+    raise HTTPException(400, f"Unsupported file type: {ext}")
 
 
 class AssetService:
@@ -41,17 +42,25 @@ class AssetService:
         upload_dir.mkdir(parents=True, exist_ok=True)
 
         ext = Path(file.filename or "file").suffix
+        asset_type = _detect_asset_type(file.filename or "")
         filename = f"{uuid.uuid4()}{ext}"
         filepath = upload_dir / filename
+        max_size = settings.max_upload_size_mb * 1024 * 1024
 
-        content = file.file.read()
-        filepath.write_bytes(content)
+        total = 0
+        with open(filepath, "wb") as f:
+            while chunk := file.file.read(CHUNK_SIZE):
+                total += len(chunk)
+                if total > max_size:
+                    filepath.unlink(missing_ok=True)
+                    raise HTTPException(413, f"File too large (max {settings.max_upload_size_mb}MB)")
+                f.write(chunk)
 
         asset = Asset(
             project_id=project_id,
-            asset_type=_detect_asset_type(file.filename or ""),
+            asset_type=asset_type,
             url=f"/uploads/{project_id}/{filename}",
-            file_size=len(content),
+            file_size=total,
             source="uploaded",
             file_name=file.filename,
         )
