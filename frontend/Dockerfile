@@ -1,6 +1,6 @@
 ARG NPM_REGISTRY=https://registry.npmjs.org
 
-FROM docker.1ms.run/library/node:20-alpine
+FROM docker.m.daocloud.io/library/node:20-alpine
 
 ARG NPM_REGISTRY
 

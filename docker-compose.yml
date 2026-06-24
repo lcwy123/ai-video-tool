@@ -1,6 +1,6 @@
 services:
   db:
-    image: docker.1ms.run/library/postgres:16-alpine
+    image: docker.m.daocloud.io/library/postgres:16-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
