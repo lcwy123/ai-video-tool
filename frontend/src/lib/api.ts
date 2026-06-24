@@ -125,4 +125,16 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ project_id: projectId, prompt, duration: duration || 5 }),
     }),
+
+  recommendFromScript: (script: string, style?: string) =>
+    request<{
+      suggested_background: string;
+      suggested_style: string;
+      suggested_duration: number;
+      suggested_mood: string;
+      tags: string[];
+    }>('/api/recommend/from-script', {
+      method: 'POST',
+      body: JSON.stringify({ script, style: style || '写实' }),
+    }),
 };

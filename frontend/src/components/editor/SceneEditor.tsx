@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import type { Scene } from '@/lib/types';
 import ModelOverride from './ModelOverride';
 import AIGenerator from './AIGenerator';
+import SmartRecommendations from './SmartRecommendations';
 
 interface SceneEditorProps {
   scene: Scene | null;
@@ -14,6 +15,7 @@ export default function SceneEditorPanel({ scene, onUpdate }: SceneEditorProps) 
   const [script, setScript] = useState('');
   const [duration, setDuration] = useState(10);
   const [avatarAction, setAvatarAction] = useState('');
+  const [style, setStyle] = useState('写实');
 
   useEffect(() => {
     if (scene) {
@@ -83,6 +85,7 @@ export default function SceneEditorPanel({ scene, onUpdate }: SceneEditorProps) 
       <ModelOverride sceneId={scene.id} onSave={onUpdate} />
       <AIGenerator projectId={scene.project_id} type="image" onGenerated={() => {}} />
       <AIGenerator projectId={scene.project_id} type="video" onGenerated={() => {}} />
+      <SmartRecommendations script={script} style={style} onApplyBackground={() => {}} />
     </div>
   );
 }

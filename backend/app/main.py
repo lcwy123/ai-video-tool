@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
-from app.routes import projects_router, scenes_router, assets_router, tts_router, avatars_router, model_config_router, render_router, ws_router, generate_router
+from app.routes import projects_router, scenes_router, assets_router, tts_router, avatars_router, model_config_router, render_router, ws_router, generate_router, recommend_router
 
 app = FastAPI(title="AI Video Tool API", version="0.1.0")
 
@@ -29,6 +29,7 @@ app.include_router(model_config_router)
 app.include_router(render_router)
 app.include_router(ws_router)
 app.include_router(generate_router)
+app.include_router(recommend_router)
 
 
 @app.get("/api/health")
