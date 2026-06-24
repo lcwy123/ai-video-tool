@@ -21,7 +21,7 @@ services:
       args:
         PIP_INDEX_URL: https://mirrors.aliyun.com/pypi/simple/
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/ai_video_tool
       CORS_ORIGINS: '["http://localhost:3000"]'
@@ -41,7 +41,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_API_URL: http://localhost:8001
     depends_on:
       - backend
 
