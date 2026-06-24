@@ -1,9 +1,13 @@
-FROM python:3.12-slim
+ARG PIP_INDEX_URL=https://pypi.org/simple/
+
+FROM docker.1ms.run/library/python:3.12-slim
+
+ARG PIP_INDEX_URL
 
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt -i $PIP_INDEX_URL
 
 COPY . .
 
