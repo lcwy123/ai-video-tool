@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import AvatarForm from '@/components/avatar/AvatarForm';
+import AvatarViewer from '@/components/avatar/AvatarViewer';
 import { api } from '@/lib/api';
 import type { Avatar } from '@/lib/types';
 
@@ -32,9 +33,7 @@ export default function EditAvatarPage() {
             onSubmit={handleUpdate}
           />
         </div>
-        <div className="w-64 h-64 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-          3D 预览（将在后续步骤中实现）
-        </div>
+        <AvatarViewer className="w-72 h-72" />
       </div>
     </div>
   );
